@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="index.css">
+        <title>API videojuegos</title>
+    </head>
+    <body>
+        <h1>Datos de Videojuegos Populares</h1>
+        <input type="text" id="idJuego" placeholder="Ingrese ID del juego (del 0 al 19)"><br>
+        <button onclick="obtenerDatos()">Buscar</button>
+        <h2 id="titulo"></h2>
+        <p id="fecha"></p>
+        <p id="rating"></p>
+        <p id="genero"></p>
+        <img id="imagen">
+        <script>
+            async function obtenerDatos() {
+                const Juego = document.getElementById("idJuego").value.trim();
+                try {
+                    const response = await fetch("/juego");
+                    const data = await response.json();
+                    document.getElementById("titulo").innerText = data.results[Juego].name;
+                    document.getElementById("fecha").innerText = data.results[Juego].released;
+                    document.getElementById("rating").innerText = data.results[Juego].rating;
+                    document.getElementById("genero").innerText = data.results[Juego].genres[0].name;
+                    document.getElementById("imagen").src = data.results[Juego].background_image;
+                } catch (error) {
+                    console.error("Error al obtener la imagen:", error);
+                }
+            }
+        </script>
+    </body>
+</html>
